@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc --watch",
-    "create": "node ./lib/scripts/generate_project",
-    "create-ts": "nodemon -x ts-node ./scripts/generateProjects",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ts": "tsc --watch",
+    "create-admin-web": "node ./lib/generator/admin-web"
   },
   "author": "Yang",
   "license": "ISC",

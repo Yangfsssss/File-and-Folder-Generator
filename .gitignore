@@ -4,19 +4,11 @@
 .DS_Store
 npm-debug.log*
 
-.zajs,
-.zajs-production
-.magi
-.magirc
-.magi-production
 
 _dist/
 _package/
-mobile.config.js
 www/
 coverage
-report_zacc_eslint_js.xml
-report_zacc_stylint_css.xml
 yarn-error.log
 yarn.lock
 
