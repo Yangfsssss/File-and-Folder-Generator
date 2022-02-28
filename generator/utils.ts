@@ -7,9 +7,9 @@ import { Folder } from '../type';
 
 export const pathResolve = (...file: string[]) => _resolve(dirname(fileURLToPath(import.meta.url)), ...file);
 
-export const log = (message: string) => console.log( chalk.green(`${message}`));
-export const successLog = (message: string) => console.log( chalk.blue(`${message}`));
-export const errorLog = (error: string) => console.log( chalk.red(`${error}`));
+export const log = (message: string) => console.log(chalk.green(`${message}`));
+export const successLog = (message: string) => console.log(chalk.blue(`${message}`));
+export const errorLog = (error: string) => console.log(chalk.red(`${error}`));
 
 // 创建文件夹
 export async function dotExistDirectoryCreate(rootFold: Folder) {
@@ -19,10 +19,14 @@ export async function dotExistDirectoryCreate(rootFold: Folder) {
 		if (!folder) {
 			return;
 		}
-
+    
 		foldNames.push(folder.foldName);
 
-		getFoldNames(folder.child!);
+		if (!folder.child) {
+			return;
+		}
+
+		getFoldNames(folder.child);
 	})(rootFold);
 
 	for (const foldName of foldNames) {
@@ -60,33 +64,37 @@ export function mkdirs(directory: string, callback: () => void) {
 }
 
 // 创建文件
-export function generateFile(folder: Folder,completeFileName:(file: string,folder:Folder)=>string) {
+export function generateFile(folder: Folder, completeFileName: (file: string, folder: Folder) => string) {
 	if (!folder) {
 		return;
 	}
-
+  
 	for (const file of Object.keys(folder.files)) {
-		const projectDirectory = pathResolve(current, folder.foldName);
+    const projectDirectory = pathResolve(current, folder.foldName);
 		const fileName = pathResolve(projectDirectory, completeFileName(file, folder));
 		const data = folder.files[file];
-
+    
 		if (existsSync(fileName)) {
-			return errorLog(`${fileName}文件已存在`);
+      return errorLog(`${fileName}文件已存在`);
 		}
 
 		log(`正在生成 文件${file}`);
 
 		new Promise((resolve, reject) => {
-			writeFile(fileName, data, 'utf-8', (err) => {
-				if (err) {
-					log(err.message);
+      writeFile(fileName, data, 'utf-8', (err) => {
+        if (err) {
+          log(err.message);
 					reject(err);
 				} else {
-					resolve(true);
+          resolve(true);
 				}
 			});
 		});
 	}
 
-	generateFile(folder.child!,completeFileName);
+  if (!folder.child) {
+    return;
+  }
+
+	generateFile(folder.child, completeFileName);
 }

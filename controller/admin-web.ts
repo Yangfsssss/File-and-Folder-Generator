@@ -14,23 +14,26 @@ export type Config = {
 
 export function getRootFolder(config: Config) {
 	const { projectName, fileName, format, detailFileName } = config;
-	const rootFold = {} as Folder;
 
-	rootFold.foldName = projectName;
+	const rootFolder: Folder = {
+		foldName: projectName,
+		files: {},
+	};
+
+	rootFolder.foldName = projectName;
 
 	if (format === 's') {
-		rootFold.files = { [fileName]: template_main(fileName), type: template_type(), index: template_index(fileName) };
+		rootFolder.files = { [fileName]: template_main(fileName), type: template_type(), index: template_index(fileName) };
 	}
 
-	if (format === 'd') {
-		rootFold.files = { [fileName]: template_main(fileName), index: template_index_d(fileName, detailFileName!), type: template_type() };
+	if (format === 'd' && detailFileName) {
+		rootFolder.files = { [fileName]: template_main(fileName), index: template_index_d(fileName, detailFileName), type: template_type() };
 
-		rootFold.child = {
-			foldName: rootFold.foldName + '\\' + detailFileName!,
-			files: { [detailFileName!]: template_detail(fileName, detailFileName!), index: template_index(detailFileName!) },
+		rootFolder.child = {
+			foldName: rootFolder.foldName + '\\' + detailFileName,
+			files: { [detailFileName!]: template_detail(fileName, detailFileName), index: template_index(detailFileName) },
 		};
 	}
 
-	return rootFold;
+	return rootFolder;
 }
-

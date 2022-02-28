@@ -15,11 +15,16 @@ function question(query: string) {
 }
 
 (async () => {
-	const config = {} as Config;
+	const config:Config = {
+    projectName:'defaultProject',
+    format:'s',
+    fileName:'defaultProject'
+  };
 
 	config.projectName = await question((log('请输入项目名称'), ''));
 
-	config.format = await question((log('生成单页（s）或详情页（d）'), '')) as 's'|'d'
+  // format的值及其类型由外部输入而非用户代码决定，用户代码无法对其值及类型进行控制。
+	config.format = await question((log('生成单页（s）或详情页（d）'), '')) as 's'|'d'; 
 
 	config.fileName = await question((log('请输入文件名称'), ''));
 
