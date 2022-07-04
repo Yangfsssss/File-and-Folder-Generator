@@ -10,7 +10,7 @@ export default function template_index_d(fileName: string, detailFileName: strin
   import { CacheRoute, CacheSwitch } from 'react-router-cache-route';
 
   const ${upperCasedFileName}Cps = lazy(() => import('./${fileName}'));
-  const ${upperCasedFileName + upperCasedDetailFileName}Cps = lazy(() => import('./${detailFileName}'));
+  const ${upperCasedDetailFileName}Cps = lazy(() => import('./${detailFileName}'));
 
   function ${upperCasedFileName}Route(props: RouteComponentProps) {
     const {

@@ -6,6 +6,7 @@
   "scripts": {
     "ts": "tsc --watch",
     "create-admin-web": "node ./lib/generator/admin-web",
+    "create-cm": "node ./lib/generator/community-manage",
     "type-check": "type-coverage --detail"
   },
   "author": "Yang",

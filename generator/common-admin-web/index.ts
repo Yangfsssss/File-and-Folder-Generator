@@ -1,7 +1,7 @@
 import * as readline from 'readline';
 import { resolve as _resolve } from 'path';
 import type { Folder, FolderConfig } from '../../type.js';
-import { getRootFolder } from '../../controller/admin-web.js';
+import { getRootFolder } from '../../controller/common-admin-web.js';
 import { dotExistDirectoryCreate, generateFile, log, successLog } from '../utils.js';
 
 const rl = readline.createInterface({

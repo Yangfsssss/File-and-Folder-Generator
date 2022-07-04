@@ -137,8 +137,6 @@ export default function template_detail(fileName: string, detailFileName: string
           />
         </Card>
 
-        <Gap />
-
         <FileCard
           title=" 病历诊断页(非必填)"
           bizType="medicalRecord"
@@ -166,81 +164,6 @@ export default function template_detail(fileName: string, detailFileName: string
           },
         ]}
       />
-
-      <FormFileCard
-      authPath={undefined}
-      title="处方"
-      constantParams={{
-        bizType: 'prescription',
-        businessType: 'EN_ORDER',
-        orderNo: claimOrderDetail?.orderNo,
-        productCode: 'VEGARD',
-      }}
-      fileList={getFormattedFileList(prescriptionList)}
-      formItems={[
-        {
-          name: 'billingDate',
-          label: '处方开具时间',
-          span: 16,
-          children: <DatePicker />,
-          format: (billingDate: string) => moment(billingDate).format('YYYYMMDD') || '',
-          rules: [{ required: true }],
-        },
-        {
-          name: 'dose',
-          label: '处方剂量',
-          children: (
-            <Select>
-              {['100mg BID', '150mg BID'].map((i) => (
-                <Select.Option value={i}>{i}</Select.Option>
-              ))}
-            </Select>
-          ),
-          span: 16,
-          rules: [{ required: true }],
-        },
-        {
-          name: 'location',
-          label: '处方省份/城市',
-          span: 16,
-          children: <Cascader options={areaInfo} />,
-          format: (location: [province: number, city: number]) => ({
-            province: location[0],
-            city: location[1],
-          }),
-          rules: [{ required: true }],
-        },
-      ]}
-      extraFormData={{ orderNo: claimOrderDetail?.orderNo }}
-      displayedItems={[
-        {
-          title: '处方开具时间',
-          dataIndex: 'billingDate',
-          render: (billingDate: number) => utils.fmtDate(billingDate) || '',
-        },
-      displayedItemsData="default"
-      allExtraButtons
-      updateImage
-      request={addOfevClaimOrderPrescriptionList}
-      refresh={init}
-    />
-  )}
-
-          <ModalForm
-          width={900}
-          title="审核通过"
-          visible={approveModalVisible}
-          setVisible={setApproveModalVisible}
-          formRef={checkForm}
-          maskClosable={false}
-          formItems={}
-          request={auditClaimStuff}
-          extraFormData={useMemo(
-            () => ({ operate: 'approve', orderNo: claimOrderDetail?.orderNo }),
-            [claimOrderDetail?.orderNo],
-          )}
-          cbs={[init]}
-          />
 
         <ModalForm
           width={400}
